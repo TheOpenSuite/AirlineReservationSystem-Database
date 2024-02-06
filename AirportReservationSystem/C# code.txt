@@ -1,0 +1,65 @@
+using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+using System.Data.SqlClient;
+
+
+namespace DataBase2
+{
+    public partial class Form1 : Form
+    {
+        public Form1()
+        {
+            InitializeComponent();
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+
+            string connectionString = "Data Source=DESKTOP-MA71QK3; Initial Catalog = AirportReservationSystem; Integrated Security=True";
+            SqlConnection connection = new SqlConnection(connectionString);
+
+            {
+                string query = "SELECT * FROM Passengers";
+
+                SqlDataAdapter adapter = new SqlDataAdapter(query, connection);
+
+                DataTable dataTable = new DataTable();
+
+                adapter.Fill(dataTable);
+
+                dataGridView1.DataSource = dataTable;
+            }
+
+            dataGridView1.Refresh();
+
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            string connectionString = "Data Source=DESKTOP-MA71QK3; Initial Catalog = AirportReservationSystem; Integrated Security=True";
+            SqlConnection connection = new SqlConnection(connectionString);
+
+            string query = "SELECT * FROM Passengers WHERE Pass_ID=@Pass_ID";
+            SqlCommand command = new SqlCommand(query, connection);
+            command.Parameters.AddWithValue("@Pass_ID", textBox1.Text);
+
+            SqlDataAdapter adapter = new SqlDataAdapter(command);
+
+            DataTable dataTable = new DataTable();
+
+            adapter.Fill(dataTable);
+
+            dataGridView1.DataSource = dataTable;
+
+            dataGridView1.Refresh();
+
+        }
+    }
+}
